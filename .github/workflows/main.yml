@@ -24,7 +24,7 @@ jobs:
     - name: Run a multi-line script
       run: pwd && ls
     - name: Run a multi-line script
-      run: cd "$GITHUB_WORKSPACE" && pwd && ls
+      run: cd .. && pwd && ls -lah
     - name: Run a multi-line script
       run: cd .. && git clone  https://github.com/acmesh-official/acmetest.git && pwd && ls -lah
 
