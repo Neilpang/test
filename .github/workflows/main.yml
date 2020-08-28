@@ -13,15 +13,31 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  Windows:
+    runs-on: windows-latest
+    env:
+      NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
+      TEST_LOCAL: 1
     steps:
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
-      run: pwd
+    - uses: actions/checkout@v2
+    - name: Install cygwin base packages with chocolatey
+        run: |
+          choco config get cacheLocation
+          choco install --no-progress cygwin
+    - name: Install cygwin additional packages
+        run: |
+          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron
+        shell: cmd
+    - name: Set ENV
+        run: |
+          echo '::set-env name=PATH::C:\tools\cygwin\bin;C:\tools\cygwin\usr\bin'
+    - name: Clone acmetest
+      shell: cmd
+      run: cd .. && git clone https://github.com/acmesh-official/acmetest.git  && bash.exe -c "cp -r acme.sh acmetest/"
+    - name: Run acmetest
+      shell: cmd
+      run: cd ../acmetest &&  bash.exe -c ./letest.sh
+      
+      
+      
+      
