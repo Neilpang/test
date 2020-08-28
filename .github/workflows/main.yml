@@ -17,12 +17,13 @@ jobs:
     runs-on: windows-latest
     env:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
+      Le_HTTPPort: 5002
     steps:
     - uses: actions/checkout@v2
     - name: Install cygwin base packages with chocolatey
       run: |
           choco config get cacheLocation
-          choco install cygwin
+          choco install --no-progress cygwin
       shell: cmd
     - name: Install cygwin additional packages
       run: |
