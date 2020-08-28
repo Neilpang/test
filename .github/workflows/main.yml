@@ -23,11 +23,11 @@ jobs:
     - name: Install cygwin base packages with chocolatey
       run: |
           choco config get cacheLocation
-          choco install --no-progress cygwin
+          choco install cygwin
       shell: cmd
     - name: Install cygwin additional packages
       run: |
-          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron
+          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron,git
       shell: cmd
     - name: Set ENV
       run: |
