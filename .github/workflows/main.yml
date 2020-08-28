@@ -17,7 +17,6 @@ jobs:
     runs-on: windows-latest
     env:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
-      TEST_LOCAL: 1
     steps:
     - uses: actions/checkout@v2
     - name: Install cygwin base packages with chocolatey
@@ -27,7 +26,7 @@ jobs:
       shell: cmd
     - name: Install cygwin additional packages
       run: |
-          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron,git
+          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron,unzip,git
       shell: cmd
     - name: Set ENV
       run: |
