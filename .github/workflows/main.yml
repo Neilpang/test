@@ -17,7 +17,7 @@ jobs:
     runs-on: windows-latest
     env:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
-      Le_HTTPPort: 5002
+      Le_HTTPPort: 8888
     steps:
     - uses: actions/checkout@v2
     - name: Install cygwin base packages with chocolatey
