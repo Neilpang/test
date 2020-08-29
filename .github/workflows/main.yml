@@ -20,7 +20,7 @@ jobs:
     - name: check
       id: checkid
       run: |
-          echo "::set-output name=ischeck::true\n"
+          echo "::set-output name=ischeck::"true"\n"
       
   test:
     runs-on: ubuntu-latest
@@ -28,7 +28,7 @@ jobs:
     steps:
     - name: check2
       run: |
-            echo "${{toJson(needs.checkNgrokToken.outputs.checkid)}}"  
+            echo "${{toJson(needs.checkNgrokToken.outputs.checkid.ischeck)}}"  
   Windows:
     runs-on: windows-latest
     needs: checkNgrokToken
