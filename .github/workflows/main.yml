@@ -12,10 +12,20 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  checkNgrokToken:
+    runs-on: ubuntu-latest
+    env: 
+      NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
+    steps:
+    - name: check
+      run: |
+            [ "$NGROK_TOKEN" ] && echo "true" || echo "false"
+      
+      
   Windows:
     runs-on: windows-latest
-    if: "${{ contains(secrets.NGROK_TOKEN, '-') }}"
+    needs: checkNgrokToken
+    if: needs.checkNgrokToken.outputs == 'true'
     env:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
       Le_HTTPPort: 8888
