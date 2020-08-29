@@ -18,8 +18,9 @@ jobs:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
     steps:
     - name: check
+      id: check
       run: |
-            [ "$NGROK_TOKEN" ] && echo "true" || echo "false"
+            [ "$NGROK_TOKEN" ] && echo "::set-output name=ischeck::true" || echo "::set-output name=ischeck::false"
       
   test:
     runs-on: ubuntu-latest
@@ -27,7 +28,7 @@ jobs:
     steps:
     - name: check
       run: |
-            echo "${{toJson(needs.checkNgrokToken.outputs)}}"  
+            echo "${{toJson(needs.checkNgrokToken.outputs.check.ischeck)}}"  
   Windows:
     runs-on: windows-latest
     needs: checkNgrokToken
