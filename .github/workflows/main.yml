@@ -21,6 +21,7 @@ jobs:
       id: checkid
       run: |
           echo "::set-output name=ischeck::'true'\n"
+          echo "::set-output name=action_fruit::strawberry"
       
   test:
     runs-on: ubuntu-latest
@@ -28,7 +29,7 @@ jobs:
     steps:
     - name: check2
       run: |
-            echo "${{needs.checkNgrokToken.outputs.checkid.ischeck}}"  
+            echo "${{needs.checkNgrokToken.outputs.checkid}}"  
             echo "${{github.actor}}"
   Windows:
     runs-on: windows-latest
