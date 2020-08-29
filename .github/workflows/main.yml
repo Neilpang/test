@@ -14,6 +14,8 @@ on:
 jobs:
   checkNgrokToken:
     runs-on: ubuntu-latest
+    outputs:
+      action_fruit: ${{ steps.check.outputs.action_fruit }}
     env: 
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
     steps:
