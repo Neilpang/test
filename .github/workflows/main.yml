@@ -27,7 +27,7 @@ jobs:
     steps:
     - name: check
       run: |
-            echo "${{needs.checkNgrokToken.outputs}}"  
+            echo "${{toJson(needs.checkNgrokToken.outputs)}}"  
   Windows:
     runs-on: windows-latest
     needs: checkNgrokToken
