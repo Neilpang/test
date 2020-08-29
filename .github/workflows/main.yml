@@ -21,7 +21,13 @@ jobs:
       run: |
             [ "$NGROK_TOKEN" ] && echo "true" || echo "false"
       
-      
+  test:
+    runs-on: ubuntu-latest
+    needs: checkNgrokToken
+    steps:
+    - name: check
+      run: |
+            echo "${{needs.checkNgrokToken.outputs}}"  
   Windows:
     runs-on: windows-latest
     needs: checkNgrokToken
