@@ -35,7 +35,7 @@ jobs:
   Windows:
     runs-on: windows-latest
     needs: checkNgrokToken
-    if: contains(needs.checkNgrokToken.outputs.action_fruit, 'true')
+    if: contains(needs.checkNgrokToken.outputs.action_fruit, 'BAR')
     env:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
       Le_HTTPPort: 8888
