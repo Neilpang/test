@@ -1,0 +1,35 @@
+
+name: outputs
+
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  checkNgrokToken:
+    runs-on: ubuntu-latest
+    env: 
+      NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
+    steps:
+      - name: Set the value
+        id: step_one
+        run: echo "::set-output name=FOO::BAR"
+      - name: Use it
+        run: echo ${{ steps.step_one.outputs.FOO }}
+      
+  test:
+    runs-on: ubuntu-latest
+    needs: checkNgrokToken
+    steps:
+    - name: check2
+      run: |
+            echo "${{needs.checkNgrokToken.outputs.checkid.action_fruit}}"  
+            echo "${{ toJson(needs.checkNgrokToken.outputs) }}"
+
+
+      
+      
