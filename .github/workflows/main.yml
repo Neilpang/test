@@ -15,7 +15,7 @@ jobs:
   # This workflow contains a single job called "build"
   Windows:
     runs-on: windows-latest
-    if: "contains(secrets.NGROK_TOKEN, '-')"
+    if: "contains(${{ secrets.NGROK_TOKEN }}, '-')"
     env:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
       Le_HTTPPort: 8888
