@@ -15,15 +15,14 @@ jobs:
   checkNgrokToken:
     runs-on: ubuntu-latest
     outputs:
-      action_fruit: ${{ steps.checkid.outputs.action_fruit }}
+      action_fruit: ${{ steps.checkid.outputs.FOO }}
     env: 
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
     steps:
     - name: check
       id: checkid
       run: |
-          echo "::set-output name=ischeck::'true'\n"
-          echo "::set-output name=action_fruit::strawberry"
+          echo "::set-output name=FOO::BAR"
       
   test:
     runs-on: ubuntu-latest
@@ -31,12 +30,12 @@ jobs:
     steps:
     - name: check2
       run: |
-            echo "${{needs.checkNgrokToken.outputs.checkid.action_fruit}}"  
+            echo "${{needs.checkNgrokToken.outputs.action_fruit}}"  
             echo "${{github.actor}}"
   Windows:
     runs-on: windows-latest
     needs: checkNgrokToken
-    if: contains(needs.checkNgrokToken.outputs , 'true')
+    if: contains(needs.checkNgrokToken.outputs.action_fruit, 'true')
     env:
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
       Le_HTTPPort: 8888
