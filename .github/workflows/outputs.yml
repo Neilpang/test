@@ -12,6 +12,8 @@ on:
 jobs:
   checkNgrokToken:
     runs-on: ubuntu-latest
+    outputs:
+      dockerimage: ${{ steps.step_one.outputs.FOO }}
     env: 
       NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
     steps:
@@ -27,8 +29,7 @@ jobs:
     steps:
     - name: check2
       run: |
-            echo "${{needs.checkNgrokToken.outputs.checkid.action_fruit}}"  
-            echo "${{ toJson(needs.checkNgrokToken.outputs) }}"
+            echo "${{ toJson(needs.checkNgrokToken.outputs.dockerimage) }}"
 
 
       
