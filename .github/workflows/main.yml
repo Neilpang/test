@@ -20,7 +20,7 @@ jobs:
     - name: check
       id: check
       run: |
-          echo "::set-output name=ischeck::true"
+          echo "::set-output name=ischeck::true\n"
       
   test:
     runs-on: ubuntu-latest
