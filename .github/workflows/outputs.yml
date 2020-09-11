@@ -15,13 +15,13 @@ jobs:
     outputs:
       dockerimage: ${{ steps.step_one.outputs.FOO }}
     env: 
-      ${{ secrets.NGROK_TOKEN }} : ${{ secrets.NGROK_TOKEN }}
+      ${{ secrets.TOKEN_NAME }} : ${{ secrets.NGROK_TOKEN }}
     steps:
       - name: Set the value
         id: step_one
-        run: echo "::set-output name=FOO::BAR"
+        run: echo "::set-output name=${{ secrets.TOKEN_NAME }}"
       - name: Use it
-        run: echo ${{ steps.step_one.outputs.FOO }}
+        run: echo ${${{ secrets.TOKEN_NAME }}}
       
   test:
     runs-on: ubuntu-latest
