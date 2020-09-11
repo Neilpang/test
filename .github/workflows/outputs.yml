@@ -15,7 +15,7 @@ jobs:
     outputs:
       dockerimage: ${{ steps.step_one.outputs.FOO }}
     env: 
-      NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
+      ${{ secrets.NGROK_TOKEN }} : ${{ secrets.NGROK_TOKEN }}
     steps:
       - name: Set the value
         id: step_one
