@@ -21,7 +21,7 @@ jobs:
         id: step_one
         run: echo "::set-output name=${{ secrets.TOKEN_NAME }}"
       - name: Use it
-        run: echo ${${{ secrets.TOKEN_NAME }}}
+        run: env
       
   test:
     runs-on: ubuntu-latest
