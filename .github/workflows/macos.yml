@@ -7,4 +7,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Debugger Session
-        uses: csexton/debugger-action@master
+        uses: neilpang/debugger-action@master
