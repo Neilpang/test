@@ -1,0 +1,72 @@
+# This is a basic workflow to help you get started with Actions
+
+name: windows
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+
+
+jobs:
+  CheckToken:
+    runs-on: ubuntu-latest
+    outputs:
+      hasToken: ${{ steps.step_one.outputs.hasToken }}
+    env: 
+      NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
+    steps:
+      - name: Set the value
+        id: step_one
+        run: |
+          if [ "$NGROK_TOKEN" ] ; then
+            echo "::set-output name=hasToken::true"
+          else
+            echo "::set-output name=hasToken::false"
+          fi
+      - name: Check the value
+        run: echo ${{ steps.step_one.outputs.hasToken }}
+        
+        
+  Windows:
+    runs-on: windows-latest
+    needs: CheckToken
+    if: contains(needs.CheckToken.outputs.hasToken, 'true')
+    env:
+      NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
+      Le_HTTPPort: 8888
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install cygwin base packages with chocolatey
+      run: |
+          choco config get cacheLocation
+          choco install --no-progress cygwin  ngrok
+      shell: cmd
+    - name: Install cygwin additional packages
+      run: |
+          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron,unzip,git
+      shell: cmd
+    - name: Set ENV
+      run: |
+          echo '::set-env name=PATH::C:\tools\cygwin\bin;C:\tools\cygwin\usr\bin'
+    - name: rdp
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "$env:NGROK_TOKEN" -Force)
+        ngrok.exe authtoken $env:NGROK_TOKEN
+        ngrok.exe tcp 3389
+    - name: Clone acmetest
+      shell: cmd
+      run: cd .. && git clone https://github.com/acmesh-official/acmetest.git  && cp -r test acmetest/
+    - name: Run acmetest
+      shell: cmd
+      run: cd ../acmetest &&  bash.exe -c ./letest.sh
+      
+        

@@ -38,34 +38,7 @@ jobs:
       run: |
             echo "${{needs.CheckToken.outputs.hasToken}}"  
             echo "${{github.actor}}"
-  Windows:
-    runs-on: windows-latest
-    needs: CheckToken
-    if: contains(needs.CheckToken.outputs.hasToken, 'true')
-    env:
-      NGROK_TOKEN : ${{ secrets.NGROK_TOKEN }}
-      Le_HTTPPort: 8888
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install cygwin base packages with chocolatey
-      run: |
-          choco config get cacheLocation
-          choco install --no-progress cygwin
-      shell: cmd
-    - name: Install cygwin additional packages
-      run: |
-          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P socat,curl,cron,unzip,git
-      shell: cmd
-    - name: Set ENV
-      run: |
-          echo '::set-env name=PATH::C:\tools\cygwin\bin;C:\tools\cygwin\usr\bin'
-    - name: Clone acmetest
-      shell: cmd
-      run: cd .. && git clone https://github.com/acmesh-official/acmetest.git  && cp -r test acmetest/
-    - name: Run acmetest
-      shell: cmd
-      run: cd ../acmetest &&  bash.exe -c ./letest.sh
-      
+
       
       
       
